@@ -10,7 +10,7 @@ if (Meteor.isClient) {
   };
 
   Template.roller.events({
-    'click input' : function () {
+    'click input': function () {
       Meteor.call('roll');
     }
   });
@@ -20,7 +20,7 @@ if (Meteor.isClient) {
   };
 
   Template.hello.events({
-    'click input' : function () {
+    'click input': function () {
       // template data, if any, is available in 'this'
       if (typeof console !== 'undefined')
         console.log("You pressed the button");
@@ -30,15 +30,16 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    // code to run on server at startup
+    Dice.remove({});
+    Meteor.call('roll');
   });
 }
 
 Meteor.methods({
   'roll': function () {
-       if (Meteor.isServer) {
+    if (Meteor.isServer) {
       Dice.remove({});
-    Dice.insert({value: Math.floor((Math.random()*6)+1)});
-   }
+      Dice.insert({value: Math.floor((Math.random() * 6) + 1)});
+    }
   }
 });
