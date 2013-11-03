@@ -1,11 +1,19 @@
+Dice = new Meteor.Collection("dice");
 if (Meteor.isClient) {
   Template.global = function () {
     return "works?";
-  }
-
-  Template.there.greeting = function () {
-    return "Welcome, from aroma!";
   };
+
+  Template.roller.greeting = function () {
+    var die = Dice.findOne();
+    return die && die.value;
+  };
+
+  Template.roller.events({
+    'click input' : function () {
+      Meteor.call('roll');
+    }
+  });
 
   Template.hello.greeting = function () {
     return "Welcome to aroma!";
@@ -25,3 +33,12 @@ if (Meteor.isServer) {
     // code to run on server at startup
   });
 }
+
+Meteor.methods({
+  'roll': function () {
+       if (Meteor.isServer) {
+      Dice.remove({});
+    Dice.insert({value: Math.floor((Math.random()*6)+1)});
+   }
+  }
+});
