@@ -5,8 +5,12 @@ if (Meteor.isClient) {
   };
 
   Template.roller.greeting = function () {
-    var die = Dice.findOne();
-    return die && die.value;
+    var dice = Dice.find({});
+    var blurb = "";
+    dice.fetch().forEach( function (die) {
+      blurb = blurb + " " + die.value;
+    });
+    return blurb;
   };
 
   Template.roller.events({
@@ -31,14 +35,20 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     Dice.remove({});
-    Meteor.call('roll');
+    Meteor.call('turn');
   });
 }
 
 Meteor.methods({
+  'turn': function () {
+    if (Meteor.isServer) {
+      Meteor.call('roll');
+    }},
   'roll': function () {
     if (Meteor.isServer) {
       Dice.remove({});
+      Dice.insert({value: Math.floor((Math.random() * 6) + 1)});
+      Dice.insert({value: Math.floor((Math.random() * 6) + 1)});
       Dice.insert({value: Math.floor((Math.random() * 6) + 1)});
     }
   }
