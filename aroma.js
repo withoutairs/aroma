@@ -8,7 +8,7 @@ if (Meteor.isClient) {
     var dice = Dice.find({});
     var blurb = "";
     dice.fetch().forEach( function (die) {
-      blurb = blurb + " " + die.value;
+      blurb = blurb + " " + die.value + " " + die.applied;
     });
     return blurb;
   };
@@ -47,9 +47,13 @@ Meteor.methods({
   'roll': function () {
     if (Meteor.isServer) {
       Dice.remove({});
-      Dice.insert({value: Math.floor((Math.random() * 6) + 1)});
-      Dice.insert({value: Math.floor((Math.random() * 6) + 1)});
-      Dice.insert({value: Math.floor((Math.random() * 6) + 1)});
+      Dice.insert(createDie());
+      Dice.insert(createDie());
+      Dice.insert(createDie());
     }
   }
 });
+
+createDie = function() {
+  return {value: Math.floor((Math.random() * 6) + 1), applied: false};
+}
