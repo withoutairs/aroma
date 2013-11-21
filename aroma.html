@@ -9,13 +9,17 @@
 <template name="game">
   <h1>Roll area</h1>
   {{> turn_dice}}
-  <input type="button" value="Roll" />
+  <span class="roller">Roll</span>
 </template>
 
 <template name="turn_dice">
   Roll: 
   {{#each turn_dice}}
-  <div>{{value}}: {{applied}}</div>
+  <div>{{value}}
+    {{#unless applied}}
+      <span class="applier">Apply</span>
+    {{/unless}}
+  </div>
   {{/each}}
 </template>
 

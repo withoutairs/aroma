@@ -5,8 +5,11 @@ if (Meteor.isClient) {
   };
 
   Template.game.events({
-    'click input': function () {
+    'click .roller': function () {
       Meteor.call('roll');
+    },
+    'click .applier': function() {
+      Dice.update(this._id, {$set: {applied: true}});
     }
   });
 }
