@@ -4,7 +4,7 @@ if (Meteor.isClient) {
     return "works?";
   };
 
-  Template.roller.greeting = function () {
+  Template.game.turn_dice = function () {
     var dice = Dice.find({});
     var blurb = "";
     dice.fetch().forEach( function (die) {
@@ -13,21 +13,9 @@ if (Meteor.isClient) {
     return blurb;
   };
 
-  Template.roller.events({
+  Template.game.events({
     'click input': function () {
       Meteor.call('roll');
-    }
-  });
-
-  Template.hello.greeting = function () {
-    return "Welcome to aroma!";
-  };
-
-  Template.hello.events({
-    'click input': function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
     }
   });
 }
