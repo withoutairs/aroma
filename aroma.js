@@ -1,16 +1,7 @@
 Dice = new Meteor.Collection("dice");
 if (Meteor.isClient) {
-  Template.global = function () {
-    return "works?";
-  };
-
-  Template.game.turn_dice = function () {
-    var dice = Dice.find({});
-    var blurb = "";
-    dice.fetch().forEach( function (die) {
-      blurb = blurb + " " + die.value + " " + die.applied;
-    });
-    return blurb;
+  Template.turn_dice.turn_dice= function () {
+    return Dice.find({});
   };
 
   Template.game.events({
@@ -22,7 +13,6 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
-    Dice.remove({});
     Meteor.call('turn');
   });
 }
