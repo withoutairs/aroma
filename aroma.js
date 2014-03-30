@@ -21,10 +21,14 @@ if (Meteor.isServer) {
 }
 
 Meteor.methods({
+  'global_dice': function () {
+    return 3;
+  },
   'turn': function () {
     if (Meteor.isServer) {
       Meteor.call('roll');
-    }},
+    }
+  },
   'roll': function () {
     if (Meteor.isServer) {
       Dice.remove({});
