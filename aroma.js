@@ -1,5 +1,8 @@
 Dice = new Meteor.Collection("dice");
+Bank = new Meteor.Collection("bank");
 if (Meteor.isClient) {
+  Meteor.subscribe("dice");
+  Meteor.subscribe("bank");
   Template.turn_dice.turn_dice= function () {
     return Dice.find({});
   };
@@ -12,10 +15,20 @@ if (Meteor.isClient) {
       Dice.update(this._id, {$set: {applied: true}});
     }
   });
+
+  Template.bank.remaining = function () {
+    var left = 0;
+    Bank.find({}).forEach(function (b) {
+        left = b.remaining;
+    });
+    return left;
+  };
 }
 
 if (Meteor.isServer) {
   Meteor.startup(function () {
+    Bank.remove({});
+    Bank.insert({remaining: 32});
     Meteor.call('turn');
   });
 }
@@ -27,6 +40,12 @@ Meteor.methods({
   'turn': function () {
     if (Meteor.isServer) {
       Meteor.call('roll');
+      Meteor.publish("dice", function () {
+          return Dice.find({});
+      });
+      Meteor.publish("bank", function () {
+          return Bank.find({});
+      });
     }
   },
   'roll': function () {

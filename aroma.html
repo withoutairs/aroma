@@ -7,6 +7,7 @@
 </body>
 
 <template name="game">
+  {{> bank}}
   <h1>Roll area</h1>
   {{> turn_dice}}
   <span class="roller">Roll</span>
@@ -23,3 +24,6 @@
   {{/each}}
 </template>
 
+<template name="bank">
+    Money remaining: {{remaining}}
+</template>
